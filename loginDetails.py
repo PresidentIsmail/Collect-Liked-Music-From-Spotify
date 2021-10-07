@@ -1,2 +1,2 @@
-username = "itisme.ismail@gmail.com"
-password = "9917$ismaiL"
+username = "_yourEmailAddress_"
+password = "_yourPasword_"
