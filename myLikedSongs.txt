@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 From The Garden (feat. Lil Uzi Vert) - Isaiah Rashad, Lil Uzi Vert
 Woman - Doja Cat
 Way Out (feat. Big Sean) - Jack Harlow, Big Sean
@@ -755,3 +756,6 @@ Intentions (feat. Quavo) - Justin Bieber, Quavo
 Friends (with BloodPop�) - Justin Bieber, BloodPop�
 Lonely (with benny blanco) - Justin Bieber, benny blanco
 hate u love u - Olivia O'Brien
+=======
+
+>>>>>>> ced75b00ea32661232bb16370ed2a24b9869fa31
