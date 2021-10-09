@@ -118,8 +118,8 @@ def getTracks(browser):
                 )
                 #  add the text of the elements into a list
                 for song in listOfSongs:
-                    text = song.text.replace('\nE\n', ' ')
-                    listOfSongNames.append(text.replace('\n', ' '))
+                    text = song.text.replace('\nE\n', ' - ')
+                    listOfSongNames.append(text.replace('\n', ' - '))
                     print(text)
 
                 lastSong = listOfSongs[-1]
@@ -151,23 +151,17 @@ def getTracks(browser):
     except Exception as e:
         print("Error: ", e)
 
-    print("\ngonna sleep now!")
-
-    # get the name of the song
-
-    # get the first artist
-
 
 # =============== Main Method ===============
 def main():
     browser = webdriver.Chrome(
         executable_path='C:/Users/Ismail/Documents/Automated Bot/SeleniumAndDriver/chromedriver_win32/chromedriver')
 
+    browser.set_window_size(width=1000, height=1045)
+    browser.set_window_position(0, 0)
     login(browser)
 
     getTracks(browser)
-
-    time.sleep(30)
 
 
 main()
