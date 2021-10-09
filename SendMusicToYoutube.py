@@ -58,76 +58,91 @@ def signIn(browser):
     time.sleep(3)
 
     # If "Protect Your Account Page" opens
-    # try:
-    #     protectYourAccount(browser)
-    # except:
-    #     pass
-    #     # browser.get("https://music.youtube.com/")
+    try:
+        protectYourAccount(browser)
+    except:
+        pass
 
 
-# ============ Function searches for the each song in the text file and likes it on youtube
+# ============ Function that searches for song in the youtubse search bar
+def searchforSongOnYoutube(browser, song):
+    # Click the Search icon
+    try:
+        WebDriverWait(browser, 15).until(
+                    EC.element_to_be_clickable(
+                        (By.XPATH, '//*[@id="layout"]/ytmusic-nav-bar/div[2]/ytmusic-search-box/div/div[1]'))
+                ).click()
+    except Exception as e:
+        print(f"Icon Search Error: {e}")
+
+            # search for the song
+    time.sleep(2)
+    try:
+        search = WebDriverWait(browser, 15).until(
+                    EC.presence_of_element_located((By.TAG_NAME, 'input'))
+                )
+        search.send_keys(song)
+        search.send_keys(Keys.ENTER)
+
+    except Exception as e:
+        print(f"Search Error: {e}")
+
+
+# ============ Function that right clicks on the song using ActionChains
+def rightClickOnSong(browser):
+    # use ActionChains to right-click on the song
+    actions = ActionChains(browser)
+    try:
+        topResultSong = WebDriverWait(browser, 15).until(
+                    EC.presence_of_element_located(
+                        (By.CSS_SELECTOR, '[id="content"]')) 
+                )
+        actions.move_to_element(topResultSong).perform()
+        time.sleep(1)
+        actions.context_click(topResultSong).perform()
+        time.sleep(2)
+    except Exception as e:
+        print(f"Top Result Error: {e}")
+
+
+# ============ Function that likes songs and adds them to Liked songs
+def addSongToLikes(browser, songsLiked):
+    try:
+        like = WebDriverWait(browser, 10).until(
+                    EC.element_to_be_clickable(
+                        (By.XPATH, '//*[@id="items"]/ytmusic-toggle-menu-service-item-renderer[2]'))
+                )
+
+        if like.text == "Add to liked songs":
+            like.click()
+            print(f"Songs liked: {songsLiked}")
+            songsLiked += 1
+        else:
+            pass
+
+    except Exception as e:
+        print(f"Like Error: {e}")
+
+
+
+# ============ Function searches for the each song in the text file and likes it on youtube Music
 def searchForSong(browser, file_path):
     with open(file_path, "r") as file:
-        actions = ActionChains(browser)
+        
         songsLiked = 0
 
         for song in file:
             song = song.replace("\n", "")
 
-            try:
-                # Click the Search icon
-                WebDriverWait(browser, 15).until(
-                    EC.element_to_be_clickable(
-                        (By.XPATH, '//*[@id="layout"]/ytmusic-nav-bar/div[2]/ytmusic-search-box/div/div[1]'))
-                ).click()
-            except Exception as e:
-                print(f"Icon Search Error: {e}")
-
             # search for the song
-            time.sleep(2)
-            try:
-                search = WebDriverWait(browser, 15).until(
-                    EC.presence_of_element_located((By.TAG_NAME, 'input'))
-                )
-                search.send_keys(song)
-                search.send_keys(Keys.ENTER)
+            searchforSongOnYoutube(browser, song)
 
-            except Exception as e:
-                print(f"Search Error: {e}")
-
-            # use ActionChains to right-click on the song
-            try:
-                topResultSong = WebDriverWait(browser, 15).until(
-                    EC.presence_of_element_located(
-                        (By.CSS_SELECTOR, '[id="content"]')) 
-                )
-                actions.move_to_element(topResultSong).perform()
-                time.sleep(1)
-                actions.context_click(topResultSong).perform()
-                time.sleep(2)
-            except Exception as e:
-                print(f"Top Result Error: {e}")
-
+            # right click the song to bring up the menu
+            rightClickOnSong(browser)
 
             # like the song
-            try:
-                like = WebDriverWait(browser, 10).until(
-                    EC.element_to_be_clickable(
-                        (By.XPATH, '//*[@id="items"]/ytmusic-toggle-menu-service-item-renderer[2]'))
-                )
-
-                if like.text == "Add to liked songs":
-                    like.click()
-                    print(f"Songs liked: {songsLiked}")
-                    songsLiked += 1
-                else:
-                    pass
-
-            except Exception as e:
-                print(f"Like Error: {e}")
-
+            addSongToLikes(browser, songsLiked)
             
-
             # exit to home page
             time.sleep(2)
             WebDriverWait(browser, 10).until(
@@ -136,6 +151,7 @@ def searchForSong(browser, file_path):
             ).click()
 
             time.sleep(random.randint(2, 4))
+
 
 
 # ============ Main Method
