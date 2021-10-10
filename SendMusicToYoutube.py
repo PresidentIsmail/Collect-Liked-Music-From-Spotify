@@ -90,7 +90,7 @@ def searchforSongOnYoutube(browser, song):
         # click on "songs" button
         WebDriverWait(browser, 15).until(
             EC.element_to_be_clickable(
-                (By.XPATH, '//*[@id="chips"]/ytmusic-chip-cloud-chip-renderer[1]/a'))
+                (By.CSS_SELECTOR, '[title="Show song results"]'))
         ).click()
 
     except Exception as e:
