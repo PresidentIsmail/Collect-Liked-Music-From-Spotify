@@ -100,9 +100,6 @@ def searchforSongOnYoutube(browser, song):
 # ============ Function that right clicks on the song using ActionChains
 def rightClickOnSong(browser):
 
-    # x = round(81/2)
-    # y = round(860/2)
-
     actions = ActionChains(browser)
     try:
         topResultSong = WebDriverWait(browser, 15).until(
