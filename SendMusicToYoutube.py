@@ -58,10 +58,10 @@ def signIn(browser):
     time.sleep(3)
 
     # If "Protect Your Account Page" opens
-    try:
-        protectYourAccount(browser)
-    except:
-        pass
+    # try:
+    #     protectYourAccount(browser)
+    # except:
+    #     pass
 
 
 # ============ Function that searches for song in the youtubse search bar
@@ -69,20 +69,29 @@ def searchforSongOnYoutube(browser, song):
     # Click the Search icon
     try:
         WebDriverWait(browser, 15).until(
-                    EC.element_to_be_clickable(
-                        (By.XPATH, '//*[@id="layout"]/ytmusic-nav-bar/div[2]/ytmusic-search-box/div/div[1]'))
-                ).click()
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="layout"]/ytmusic-nav-bar/div[2]/ytmusic-search-box/div/div[1]'))
+        ).click()
     except Exception as e:
         print(f"Icon Search Error: {e}")
 
-            # search for the song
+        # search for the song
     time.sleep(2)
     try:
         search = WebDriverWait(browser, 15).until(
-                    EC.presence_of_element_located((By.TAG_NAME, 'input'))
-                )
+            EC.presence_of_element_located((By.TAG_NAME, 'input'))
+        )
         search.send_keys(song)
+        time.sleep(1)
+        search.send_keys(Keys.ARROW_DOWN)
+        time.sleep(1)
         search.send_keys(Keys.ENTER)
+
+        # click on "songs" button
+        WebDriverWait(browser, 15).until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="chips"]/ytmusic-chip-cloud-chip-renderer[1]/a'))
+        ).click()
 
     except Exception as e:
         print(f"Search Error: {e}")
@@ -90,13 +99,14 @@ def searchforSongOnYoutube(browser, song):
 
 # ============ Function that right clicks on the song using ActionChains
 def rightClickOnSong(browser):
-    # use ActionChains to right-click on the song
+
     actions = ActionChains(browser)
     try:
         topResultSong = WebDriverWait(browser, 15).until(
-                    EC.presence_of_element_located(
-                        (By.CSS_SELECTOR, '[id="content"]')) 
-                )
+            EC.visibility_of_element_located(
+                (By.XPATH, '//*[@id="contents"]/ytmusic-responsive-list-item-renderer[1]'))
+        )
+
         actions.move_to_element(topResultSong).perform()
         time.sleep(1)
         actions.context_click(topResultSong).perform()
@@ -105,53 +115,110 @@ def rightClickOnSong(browser):
         print(f"Top Result Error: {e}")
 
 
-# ============ Function that likes songs and adds them to Liked songs
-def addSongToLikes(browser, songsLiked):
-    try:
-        like = WebDriverWait(browser, 10).until(
-                    EC.element_to_be_clickable(
-                        (By.XPATH, '//*[@id="items"]/ytmusic-toggle-menu-service-item-renderer[2]'))
-                )
+# ============ Function that likes the song
+def likeSong(browser):
 
-        if like.text == "Add to liked songs":
-            like.click()
-            print(f"Songs liked: {songsLiked}")
-            songsLiked += 1
-        else:
-            pass
+    like = WebDriverWait(browser, 10).until(
+        EC.element_to_be_clickable(
+            (By.XPATH, '//*[@id="items"]/ytmusic-toggle-menu-service-item-renderer[2]'))
+    )
 
-    except Exception as e:
-        print(f"Like Error: {e}")
+    return like
 
+
+# ============ Function that go back to youtubes home page
+def exitToHomePage(browser):
+    WebDriverWait(browser, 10).until(
+        EC.element_to_be_clickable(
+            (By.XPATH, '//*[@id="left-content"]/a/picture[1]/img'))
+    ).click()
 
 
 # ============ Function searches for the each song in the text file and likes it on youtube Music
-def searchForSong(browser, file_path):
+def addMySongsToLikePlaylist(browser, file_path):
     with open(file_path, "r") as file:
-        
+
         songsLiked = 0
 
         for song in file:
             song = song.replace("\n", "")
+            browser.refresh()
 
-            # search for the song
-            searchforSongOnYoutube(browser, song)
+            songExistsInFile = checkIfSongExistsInFile(song)
 
-            # right click the song to bring up the menu
-            rightClickOnSong(browser)
+            if songExistsInFile:
+                print("\nsong exits in file\n")
+                removeSongFromFile(song)
 
-            # like the song
-            addSongToLikes(browser, songsLiked)
-            
-            # exit to home page
-            time.sleep(2)
-            WebDriverWait(browser, 10).until(
-                EC.element_to_be_clickable(
-                    (By.XPATH, '//*[@id="left-content"]/a/picture[1]/img'))
-            ).click()
+            else:
+                # search for the song
+                searchforSongOnYoutube(browser, song)
 
-            time.sleep(random.randint(2, 4))
+                # right click the song to bring up the menu
+                rightClickOnSong(browser)
 
+                # like the song
+                try:
+                    like = likeSong(browser)
+                    if like.text == "Add to liked songs":
+                        like.click()
+
+                        songsLiked += 1
+                        print(f"\nSongs liked: {songsLiked}")
+                        removeSongFromFile(song)
+                    else:
+                        removeSongFromFile(song)
+                        pass
+
+                    writeToFile(song)
+
+                except Exception as e:
+                    print(f"Like Error: {e}")
+
+                # exit to home page
+                exitToHomePage(browser)
+
+                time.sleep(random.randint(2, 4))
+
+
+# =============== function that removes a song from the file ===============
+def removeSongFromFile(song):
+    file_path = "C:\\Users\\Ismail\\Desktop\\Spotify_Scraper\\myLikedSongs.txt"
+    with open(file_path, "r") as f:
+        lines = f.readlines()
+    with open(file_path, "w") as f:
+        for line in lines:
+            if line.strip("\n") != song:
+                f.write(line)
+
+    print(f"\n{song} removed from file")
+
+
+# ============ Function that checks if a song exists in a file
+def checkIfSongExistsInFile(song):
+    # path to Interact file
+    file_path = "C:\\Users\\Ismail\\Desktop\\Spotify_Scraper\\AlreadyLiked.txt"
+    with open(file_path, 'a+') as w_file:
+        w_file.seek(0)  # set pointer to beginning of file
+        file = w_file.read().splitlines()  # remove newline
+        if song in file:
+            return True
+        else:
+            return False
+
+
+# ============ Function that writes song to file
+def writeToFile(song):
+    # path to file
+    file_path = "C:\\Users\\Ismail\\Desktop\\Spotify_Scraper\\AlreadyLiked.txt"
+    with open(file_path, 'a+') as w_file:
+        w_file.seek(0)  # set pointer to beginning of file
+        file = w_file.read().splitlines()  # remove newline
+        if song in file:
+            print(f"{song} exists in file")
+        else:
+            w_file.write(song + "\n")
+            print(f"\n{song} added to file")
 
 
 # ============ Main Method
@@ -161,12 +228,12 @@ def main():
     file_path = "mylikedSongs.txt"
     time.sleep(3)
 
-    browser.set_window_size(width=1080, height=1045)
+    browser.set_window_size(width=1400, height=1045)
     browser.set_window_position(0, 0)
     signIn(browser)
 
     # browser.maximize_window()
-    searchForSong(browser, file_path)
+    addMySongsToLikePlaylist(browser, file_path)
 
     time.sleep(5)
 
