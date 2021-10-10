@@ -9,25 +9,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
-# =============== function that logs in from the Hamburger menu on Spotify ===============
-
-
-def hamburgerLogin(browser):
-    browser.get("https://www.spotify.com")
-
-    # click hamburger
-    WebDriverWait(browser, 15).until(
-        EC.element_to_be_clickable(
-            (By.XPATH, '//*[@id="__next"]/div[1]/header/div/div[2]/button'))
-    ).click()
-
-    # click login
-    time.sleep(2)
-    WebDriverWait(browser, 15).until(
-        EC.element_to_be_clickable(
-            (By.XPATH, '//*[@id="mh-mobile-navigation"]/ul/li[6]/a'))
-    ).click()
-
 
 # =============== login function after logging in from spotify Hamburger menu ===============
 def enterUsername_Password(browser):
@@ -46,8 +27,12 @@ def enterUsername_Password(browser):
 
 # =============== login function after logging in from spotify Hamburger menu ===============
 def login(browser):
+    browser.get("https://www.spotify.com")
 
-    hamburgerLogin(browser)
+    first_login = WebDriverWait(browser, 15).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="__next"]/div[1]/header/div/nav/ul/li[6]/a'))
+    )
+    first_login.click()
 
     enterUsername_Password(browser)
 
@@ -84,42 +69,71 @@ def login(browser):
 
 # =============== Function that removes duplicates from a list ===============
 def removeDuplicates(listOfSongs):
-  return list(dict.fromkeys(listOfSongs))
+    return list(dict.fromkeys(listOfSongs))
 
 
 # =============== Function that writes the song names to a file ===============
 def writeToFile(listOfSongs):
-    with open("myLikedSongs.txt", "w") as w_file:
-        for song in listOfSongs:
-            w_file.write(song + "\n")
+    file_path = file_path = "C:\\Users\\Ismail\\Desktop\\Spotify_Scraper\\textFiles\\mylikedSongs.txt"
+    try:
+        with open(file_path, "w") as w_file:
+            for song in listOfSongs:
+                w_file.write(song + "\n")
+        print("\nSongs written to text file.\n")
+
+    except Exception as e:
+        print(f"\nError writting to file: {e}")
 
 
-# =============== Main Method ===============
-def getTracks(browser):
+# =============== function that gets the name of the song ===============
+def getNameOfSong(browser):
+    print("\nGetting song name\n")
+    songInDOM = WebDriverWait(browser, 15).until(
+            EC.presence_of_element_located(
+                (By.CSS_SELECTOR, '[class="_gvEBguxvbSruOQCkWrz standalone-ellipsis-one-line ipxcyIaAWQfeUHO468Os"]'))
+        )
+    
+    return songInDOM
+
+
+# =============== function that gets the songs into a list ===============
+def putSongsIntoList(browser):
+    listOfSongs = WebDriverWait(browser, 15).until(
+                    EC.presence_of_all_elements_located(
+                        (By.CSS_SELECTOR, '[class="jqC4kulx5rkKJSJHwWC0"]'))
+                )
+    
+    return listOfSongs
+
+
+# =============== function that scrolls through the playlist ===============
+def scrollPlaylist(browser, lastSong):
+    try:
+        browser.execute_script(
+                    "arguments[0].scrollIntoView()", lastSong)
+    except Exception as e:
+        print("\nError: ", e)
+
+
+# =============== function that goes to Spotify and collects all liked songs ===============
+def collectLikedSongs(browser):
     # go to liked songs playlist
     browser.get("https://open.spotify.com/collection/tracks")
-    browser.maximize_window()
     time.sleep(2)
 
     listOfSongNames = []
     try:
-        print("\nGetting song name\n")
-        songInDOM = WebDriverWait(browser, 15).until(
-                EC.presence_of_element_located(
-                    (By.CSS_SELECTOR, '[class="_gvEBguxvbSruOQCkWrz standalone-ellipsis-one-line ipxcyIaAWQfeUHO468Os"]'))
-            )
+        songInDOM = getNameOfSong(browser)
 
         while songInDOM:
             try:
                 # gets a list of song elements
-                listOfSongs = WebDriverWait(browser, 15).until(
-                    EC.presence_of_all_elements_located(
-                        (By.CSS_SELECTOR, '[class="jqC4kulx5rkKJSJHwWC0"]'))
-                )
-                #  add the text of the elements into a list
+                listOfSongs = putSongsIntoList(browser)
+
+                #  add the text of the elements into another list
                 for song in listOfSongs:
-                    text = song.text.replace('\nE\n', ' - ')
-                    listOfSongNames.append(text.replace('\n', ' - '))
+                    text = song.text.replace('\nE\n', ' ')
+                    listOfSongNames.append(text.replace('\n', ' '))
                     print(text)
 
                 lastSong = listOfSongs[-1]
@@ -127,10 +141,7 @@ def getTracks(browser):
                 print(f"\nError: {e}\n")
 
             # scroll the song into view
-            try:
-                browser.execute_script("arguments[0].scrollIntoView()", lastSong)
-            except Exception as e:
-                print("\nError: ", e)
+            scrollPlaylist(browser, lastSong)
 
             # if the last song is "hate u love u" than break
             if lastSong.text == "hate u love u\nOlivia O'Brien":
@@ -139,17 +150,13 @@ def getTracks(browser):
                 # remove any duplicate songs from the list
                 listOfSongNames_noDups = removeDuplicates(listOfSongNames)
                 print(f"Number of songs: {len(listOfSongNames_noDups)}")
-                
+
                 # write the songs to a file
-                try:
-                    writeToFile(listOfSongNames_noDups)
-                    print("\nSongs written to text file.\n")
-                    break
-                except Exception as e:
-                    print(f"\nError: {e}")
+                writeToFile(listOfSongNames_noDups)
+                break
 
     except Exception as e:
-        print("Error: ", e)
+        print("Error Collecting Songs: ", e)
 
 
 # =============== Main Method ===============
@@ -157,11 +164,11 @@ def main():
     browser = webdriver.Chrome(
         executable_path='C:/Users/Ismail/Documents/Automated Bot/SeleniumAndDriver/chromedriver_win32/chromedriver')
 
-    browser.set_window_size(width=1000, height=1045)
+    browser.set_window_size(width=1300, height=1045)
     browser.set_window_position(0, 0)
     login(browser)
 
-    getTracks(browser)
+    collectLikedSongs(browser)
 
 
 main()
