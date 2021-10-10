@@ -100,6 +100,9 @@ def searchforSongOnYoutube(browser, song):
 # ============ Function that right clicks on the song using ActionChains
 def rightClickOnSong(browser):
 
+    # x = round(81/2)
+    # y = round(860/2)
+
     actions = ActionChains(browser)
     try:
         topResultSong = WebDriverWait(browser, 15).until(
@@ -107,12 +110,22 @@ def rightClickOnSong(browser):
                 (By.XPATH, '//*[@id="contents"]/ytmusic-responsive-list-item-renderer[1]'))
         )
 
-        actions.move_to_element(topResultSong).perform()
-        time.sleep(1)
-        actions.context_click(topResultSong).perform()
-        time.sleep(2)
     except Exception as e:
-        print(f"Top Result Error: {e}")
+        print(f"Top Result Error 1: {e}")
+    
+    try:
+        actions.move_to_element_with_offset(topResultSong, 5, 5).context_click().perform()
+        time.sleep(1)
+        
+    except Exception as e:
+        print(f"Top Result Error 2: {e}")
+
+    # try:
+    #     actions.context_click(topResultSong).perform()
+    #     time.sleep(2)
+        
+    # except Exception as e:
+    #     print(f"Top Result Error 3: {e}")
 
 
 # ============ Function that likes the song
@@ -153,6 +166,7 @@ def addMySongsToLikePlaylist(browser, file_path):
             else:
                 # search for the song
                 searchforSongOnYoutube(browser, song)
+                time.sleep(2)
 
                 # right click the song to bring up the menu
                 rightClickOnSong(browser)
