@@ -233,20 +233,12 @@ def writeToFile(song):
 
 
 # ============ Main Method
-def main():
-    browser = webdriver.Chrome(
-        executable_path='C:/Users/Ismail/Documents/Automated Bot/SeleniumAndDriver/chromedriver_win32/chromedriver')
+def main(browser):
     file_path = "C:\\Users\\Ismail\\Desktop\\Spotify_Scraper\\textFiles\\mylikedSongs.txt"
     time.sleep(3)
 
-    browser.set_window_size(width=1400, height=1045)
-    browser.set_window_position(0, 0)
     signIn(browser)
 
     # browser.maximize_window()
     addMySongsToLikePlaylist(browser, file_path)
 
-    time.sleep(5)
-
-
-main()

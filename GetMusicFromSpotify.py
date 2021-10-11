@@ -160,15 +160,10 @@ def collectLikedSongs(browser):
 
 
 # =============== Main Method ===============
-def main():
-    browser = webdriver.Chrome(
-        executable_path='C:/Users/Ismail/Documents/Automated Bot/SeleniumAndDriver/chromedriver_win32/chromedriver')
+def main(browser):
 
-    browser.set_window_size(width=1300, height=1045)
-    browser.set_window_position(0, 0)
     login(browser)
 
     collectLikedSongs(browser)
 
 
-main()
