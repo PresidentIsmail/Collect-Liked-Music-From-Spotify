@@ -194,7 +194,7 @@ def addMySongsToLikePlaylist(browser, file_path):
 
 # =============== function that removes a song from the file ===============
 def removeSongFromFile(song):
-    file_path = "C:\\Users\\Ismail\\Desktop\\Spotify_Scraper\\textFiles\\myLikedSongs.txt"
+    file_path = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\myLikedSongs.txt"
     with open(file_path, "r") as f:
         lines = f.readlines()
     with open(file_path, "w") as f:
@@ -208,7 +208,7 @@ def removeSongFromFile(song):
 # ============ Function that checks if a song exists in a file
 def checkIfSongExistsInFile(song):
     # path to Interact file
-    file_path = "C:\\Users\\Ismail\\Desktop\\Spotify_Scraper\\textFiles\\AlreadyLiked.txt"
+    file_path = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\AlreadyLiked.txt"
     with open(file_path, 'a+') as w_file:
         w_file.seek(0)  # set pointer to beginning of file
         file = w_file.read().splitlines()  # remove newline
@@ -221,7 +221,7 @@ def checkIfSongExistsInFile(song):
 # ============ Function that writes song to file
 def writeToFile(song):
     # path to file
-    file_path = "C:\\Users\\Ismail\\Desktop\\Spotify_Scraper\\textFiles\\AlreadyLiked.txt"
+    file_path = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\AlreadyLiked.txt"
     with open(file_path, 'a+') as w_file:
         w_file.seek(0)  # set pointer to beginning of file
         file = w_file.read().splitlines()  # remove newline
@@ -236,7 +236,7 @@ def writeToFile(song):
 def main():
     browser = webdriver.Chrome(
         executable_path='C:/Users/Ismail/Documents/Automated Bot/SeleniumAndDriver/chromedriver_win32/chromedriver')
-    file_path = "C:\\Users\\Ismail\\Desktop\\Spotify_Scraper\\textFiles\\mylikedSongs.txt"
+    file_path = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\mylikedSongs.txt"
     time.sleep(3)
 
     browser.set_window_size(width=1400, height=1045)

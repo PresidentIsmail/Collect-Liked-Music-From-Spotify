@@ -74,7 +74,7 @@ def removeDuplicates(listOfSongs):
 
 # =============== Function that writes the song names to a file ===============
 def writeToFile(listOfSongs):
-    file_path = file_path = "C:\\Users\\Ismail\\Desktop\\Spotify_Scraper\\textFiles\\mylikedSongs.txt"
+    file_path = file_path = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\mylikedSongs.txt"
     try:
         with open(file_path, "w") as w_file:
             for song in listOfSongs:
