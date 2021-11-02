@@ -9,7 +9,7 @@ from loginDetails import email, email_password
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from FileHandling import removeIrrelevantAccounts, writeAccountToFile, removeAccountFromFile, checkIfAccountExistsInFile, removeIrrelevantAccounts, getSizeOfFile
+from FileHandling import writeSongToFile, removeSongFromFile, checkIfSongExistsInFile, getSizeOfFile
 from FileHandling import allMySongs_FilePath, likedSongs_FilePath
 
 # ============ Function gets past "Protect Your Account" page
@@ -182,7 +182,7 @@ def addMySongsToLikePlaylist(browser, file_path):
                         removeSongFromFile(song)
                         pass
 
-                    writeToFile(song)
+                    writeSongToFile(song)
 
                 except Exception as e:
                     print(f"Like Error: {e}")
@@ -193,44 +193,6 @@ def addMySongsToLikePlaylist(browser, file_path):
                 time.sleep(random.randint(2, 4))
 
 
-# =============== function that removes a song from the file ===============
-def removeSongFromFile(song):
-    file_path = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\myLikedSongs.txt"
-    with open(file_path, "r") as f:
-        lines = f.readlines()
-    with open(file_path, "w") as f:
-        for line in lines:
-            if line.strip("\n") != song:
-                f.write(line)
-
-    print(f"\n{song} removed from file")
-
-
-# ============ Function that checks if a song exists in a file
-def checkIfSongExistsInFile(song):
-    # path to Interact file
-    file_path = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\AlreadyLiked.txt"
-    with open(file_path, 'a+') as w_file:
-        w_file.seek(0)  # set pointer to beginning of file
-        file = w_file.read().splitlines()  # remove newline
-        if song in file:
-            return True
-        else:
-            return False
-
-
-# ============ Function that writes song to file
-def writeToFile(song):
-    # path to file
-    file_path = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\AlreadyLiked.txt"
-    with open(file_path, 'a+') as w_file:
-        w_file.seek(0)  # set pointer to beginning of file
-        file = w_file.read().splitlines()  # remove newline
-        if song in file:
-            print(f"{song} exists in file")
-        else:
-            w_file.write(song + "\n")
-            print(f"\n{song} added to file")
 
 
 # ============ Main Method

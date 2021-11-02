@@ -2,7 +2,7 @@ from os import stat
 from re import search
 
 # =============== function that writes an account to a file ===============
-def writeAccountToFile(account, file_path):
+def writeSongToFile(account, file_path):
     with open(file_path, 'a+') as w_file:
         w_file.seek(0)  # set pointer to beginning of file
         file = w_file.read().splitlines()  # remove newline
@@ -14,7 +14,7 @@ def writeAccountToFile(account, file_path):
 
 
 # =============== function that removes an account from a file ===============
-def removeAccountFromFile(account, file_path):
+def removeSongFromFile(account, file_path):
     with open(file_path, "r") as f:
         lines = f.readlines()
     with open(file_path, "w") as f:
@@ -26,7 +26,7 @@ def removeAccountFromFile(account, file_path):
 
 
 # =============== function that checks if an account exists in a file ===============
-def checkIfAccountExistsInFile(account, file_path):
+def checkIfSongExistsInFile(account, file_path):
     with open(file_path, 'a+') as w_file:
         w_file.seek(0)  # set pointer to beginning of file
         file = w_file.read().splitlines()  # remove newline
@@ -37,7 +37,7 @@ def checkIfAccountExistsInFile(account, file_path):
 
 
 # =============== function that finds subStrings in each line of a file ===============
-def removeIrrelevantAccounts(subString, file_path):
+def removeIrrelevantSongs(subString, file_path):
     with open(file_path, "r") as f:
         lines = f.readlines()
     with open(file_path, "w") as f:
