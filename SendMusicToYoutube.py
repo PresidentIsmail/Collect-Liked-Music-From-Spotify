@@ -118,32 +118,28 @@ def rightClickOnSong(browser):
     except Exception as e:
         print(f"Top Result Error 2: {e}")
 
-    # try:
-    #     actions.context_click(topResultSong).perform()
-    #     time.sleep(2)
-        
-    # except Exception as e:
-    #     print(f"Top Result Error 3: {e}")
-
 
 # ============ Function that likes the song
 def likeSong(browser):
+    try:
+        like = WebDriverWait(browser, 10).until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="items"]/ytmusic-toggle-menu-service-item-renderer[2]'))
+        )
 
-    like = WebDriverWait(browser, 10).until(
-        EC.element_to_be_clickable(
-            (By.XPATH, '//*[@id="items"]/ytmusic-toggle-menu-service-item-renderer[2]'))
-    )
-
-    return like
-
+        return like
+    except:
+        pass
 
 # ============ Function that go back to youtubes home page
 def exitToHomePage(browser):
-    WebDriverWait(browser, 10).until(
-        EC.element_to_be_clickable(
-            (By.XPATH, '//*[@id="left-content"]/a/picture[1]/img'))
-    ).click()
-
+    try:
+        WebDriverWait(browser, 10).until(
+            EC.element_to_be_clickable(
+                (By.XPATH, '//*[@id="left-content"]/a/picture[1]/img'))
+        ).click()
+    except :
+        pass
 
 # ============ Function searches for the each song in the text file and likes it on youtube Music
 def addMySongsToLikePlaylist(browser):
