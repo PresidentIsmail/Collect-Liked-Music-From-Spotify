@@ -56,5 +56,5 @@ def getSizeOfFile(file_path):
 
 
 
-allMySongs_FilePath = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\allMySongs.txt"
-likedSongs_FilePath = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\likedSongs.txt"
+songsRetrieved_FilePath = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\songsRetrieved.txt"
+songsSent_FilePath = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\songsSent.txt"
