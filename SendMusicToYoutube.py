@@ -9,8 +9,8 @@ from loginDetails import email, email_password
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from FileHandling import writeSongToFile, removeSongFromFile, checkIfSongExistsInFile, getSizeOfFile
-from FileHandling import allMySongs_FilePath, likedSongs_FilePath
+from FileHandling import writeSongToFile, removeSongFromFile, checkIfSongExistsInFile
+from FileHandling import songsSent_FilePath, songsRetrieved_FilePath
 
 # ============ Function gets past "Protect Your Account" page
 def protectYourAccount(browser):
@@ -155,11 +155,11 @@ def addMySongsToLikePlaylist(browser, file_path):
             song = song.replace("\n", "")
             browser.refresh()
 
-            songExistsInFile = checkIfSongExistsInFile(song)
+            songExistsInFile = checkIfSongExistsInFile(songsSent_FilePath, song)
 
             if songExistsInFile:
                 print("\nsong exits in file\n")
-                removeSongFromFile(song)
+                removeSongFromFile(songsRetrieved_FilePath, song)
 
             else:
                 # search for the song
@@ -177,12 +177,12 @@ def addMySongsToLikePlaylist(browser, file_path):
 
                         songsLiked += 1
                         print(f"\nSongs liked: {songsLiked}")
-                        removeSongFromFile(song)
+                        removeSongFromFile(songsRetrieved_FilePath, song)
                     else:
-                        removeSongFromFile(song)
+                        removeSongFromFile(songsRetrieved_FilePath, song)
                         pass
 
-                    writeSongToFile(song)
+                    writeSongToFile(songsSent_FilePath, song)
 
                 except Exception as e:
                     print(f"Like Error: {e}")
