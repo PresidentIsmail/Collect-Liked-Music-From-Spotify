@@ -14,7 +14,7 @@ def writeSongToFile(song, file_path):
 
 
 # =============== Function that writes a list of songs to a file ===============
-def writeToFile(listOfSongs, file_path):
+def writeListOfSongsToFile(listOfSongs, file_path):
     try:
         with open(file_path, "w") as w_file:
             for song in listOfSongs:
