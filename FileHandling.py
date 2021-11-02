@@ -1,36 +1,36 @@
 from os import stat
 from re import search
 
-# =============== function that writes an account to a file ===============
-def writeSongToFile(account, file_path):
+# =============== function that writes an song to a file ===============
+def writeSongToFile(song, file_path):
     with open(file_path, 'a+') as w_file:
         w_file.seek(0)  # set pointer to beginning of file
         file = w_file.read().splitlines()  # remove newline
-        if account in file:
-            print(f"{account} exists in file")
+        if song in file:
+            print(f"{song} exists in file")
         else:
-            w_file.write(account + "\n")
-            print(f"{account} added to file")
+            w_file.write(song + "\n")
+            print(f"{song} added to file")
 
 
-# =============== function that removes an account from a file ===============
-def removeSongFromFile(account, file_path):
+# =============== function that removes an song from a file ===============
+def removeSongFromFile(song, file_path):
     with open(file_path, "r") as f:
         lines = f.readlines()
     with open(file_path, "w") as f:
         for line in lines:
-            if line.strip("\n") != account:
+            if line.strip("\n") != song:
                 f.write(line)
     
-    print(f"{account} removed from file")
+    print(f"{song} removed from file")
 
 
-# =============== function that checks if an account exists in a file ===============
-def checkIfSongExistsInFile(account, file_path):
+# =============== function that checks if an song exists in a file ===============
+def checkIfSongExistsInFile(song, file_path):
     with open(file_path, 'a+') as w_file:
         w_file.seek(0)  # set pointer to beginning of file
         file = w_file.read().splitlines()  # remove newline
-        if account in file:
+        if song in file:
             return True
         else:
             return False

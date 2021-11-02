@@ -59,10 +59,10 @@ def signIn(browser):
     time.sleep(3)
 
     # If "Protect Your Account Page" opens
-    # try:
-    #     protectYourAccount(browser)
-    # except:
-    #     pass
+    try:
+        protectYourAccount(browser)
+    except:
+        pass
 
 
 # ============ Function that searches for song in the youtubse search bar
@@ -146,8 +146,8 @@ def exitToHomePage(browser):
 
 
 # ============ Function searches for the each song in the text file and likes it on youtube Music
-def addMySongsToLikePlaylist(browser, file_path):
-    with open(file_path, "r") as file:
+def addMySongsToLikePlaylist(browser):
+    with open(songsRetrieved_FilePath, "r") as file:
 
         songsLiked = 0
 
@@ -155,11 +155,11 @@ def addMySongsToLikePlaylist(browser, file_path):
             song = song.replace("\n", "")
             browser.refresh()
 
-            songExistsInFile = checkIfSongExistsInFile(songsSent_FilePath, song)
+            songExistsInFile = checkIfSongExistsInFile(song, songsSent_FilePath)
 
             if songExistsInFile:
                 print("\nsong exits in file\n")
-                removeSongFromFile(songsRetrieved_FilePath, song)
+                removeSongFromFile(song, songsRetrieved_FilePath)
 
             else:
                 # search for the song
@@ -177,12 +177,12 @@ def addMySongsToLikePlaylist(browser, file_path):
 
                         songsLiked += 1
                         print(f"\nSongs liked: {songsLiked}")
-                        removeSongFromFile(songsRetrieved_FilePath, song)
+                        removeSongFromFile(song, songsRetrieved_FilePath)
                     else:
-                        removeSongFromFile(songsRetrieved_FilePath, song)
+                        removeSongFromFile(song, songsRetrieved_FilePath)
                         pass
 
-                    writeSongToFile(songsSent_FilePath, song)
+                    writeSongToFile(song, songsSent_FilePath)
 
                 except Exception as e:
                     print(f"Like Error: {e}")
@@ -199,7 +199,6 @@ def addMySongsToLikePlaylist(browser, file_path):
 def main():
     browser = webdriver.Chrome(
         executable_path='C:/Users/Ismail/Documents/Automated Bot/SeleniumAndDriver/chromedriver_win32/chromedriver')
-    file_path = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\mylikedSongs.txt"
     time.sleep(3)
 
     browser.set_window_size(width=1400, height=1045)
@@ -207,4 +206,4 @@ def main():
     signIn(browser)
 
     # browser.maximize_window()
-    addMySongsToLikePlaylist(browser, file_path)
+    addMySongsToLikePlaylist(browser)
