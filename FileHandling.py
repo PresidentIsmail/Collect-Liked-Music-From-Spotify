@@ -13,6 +13,18 @@ def writeSongToFile(song, file_path):
             print(f"{song} added to file")
 
 
+# =============== Function that writes a list of songs to a file ===============
+def writeToFile(listOfSongs, file_path):
+    try:
+        with open(file_path, "w") as w_file:
+            for song in listOfSongs:
+                w_file.write(song + "\n")
+        print("\nSongs written to text file.\n")
+
+    except Exception as e:
+        print(f"\nError writting to file: {e}")
+
+
 # =============== function that removes an song from a file ===============
 def removeSongFromFile(song, file_path):
     with open(file_path, "r") as f:
