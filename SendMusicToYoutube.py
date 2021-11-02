@@ -9,7 +9,8 @@ from loginDetails import email, email_password
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-
+from FileHandling import removeIrrelevantAccounts, writeAccountToFile, removeAccountFromFile, checkIfAccountExistsInFile, removeIrrelevantAccounts, getSizeOfFile
+from FileHandling import allMySongs_FilePath, likedSongs_FilePath
 
 # ============ Function gets past "Protect Your Account" page
 def protectYourAccount(browser):
