@@ -74,7 +74,7 @@ def removeDuplicates(listOfSongs):
 
 # =============== Function that writes the song names to a file ===============
 def writeToFile(listOfSongs):
-    file_path = file_path = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\mylikedSongs.txt"
+    file_path = file_path = "C:\\Users\\Ismail\\Documents\\Spotify_Scraper\\textFiles\\songsRetrieved.txt"
     try:
         with open(file_path, "w") as w_file:
             for song in listOfSongs:
@@ -85,22 +85,12 @@ def writeToFile(listOfSongs):
         print(f"\nError writting to file: {e}")
 
 
-# =============== function that gets the name of the song ===============
-def getNameOfSong(browser):
-    print("\nGetting song name\n")
-    songInDOM = WebDriverWait(browser, 15).until(
-            EC.presence_of_element_located(
-                (By.CSS_SELECTOR, '[class="_gvEBguxvbSruOQCkWrz standalone-ellipsis-one-line ipxcyIaAWQfeUHO468Os"]'))
-        )
-    
-    return songInDOM
-
 
 # =============== function that gets the songs into a list ===============
 def putSongsIntoList(browser):
     listOfSongs = WebDriverWait(browser, 15).until(
                     EC.presence_of_all_elements_located(
-                        (By.CSS_SELECTOR, '[class="jqC4kulx5rkKJSJHwWC0"]'))
+                        (By.CSS_SELECTOR, '[class="AndViY6nGGIfhAh3MpHY"]'))
                 )
     
     return listOfSongs
@@ -123,9 +113,8 @@ def collectLikedSongs(browser):
 
     listOfSongNames = []
     try:
-        songInDOM = getNameOfSong(browser)
 
-        while songInDOM:
+        while True:
             try:
                 # gets a list of song elements
                 listOfSongs = putSongsIntoList(browser)
