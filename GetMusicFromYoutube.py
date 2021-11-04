@@ -4,7 +4,6 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-from loginDetails import email, email_password
 
 # imports to wait for page to load
 from selenium.webdriver.support import expected_conditions as EC
@@ -16,7 +15,9 @@ from FileHandling import writeListOfSongsToFile
 from FileHandling import songsRetrieved_FilePath
 
 # imports for logging into youtube music
-from SendMusicToYoutube import signIn
+from LoginToYoutubeBrowser import signIn
+from loginDetails import youtube_musicGetting_email, youtube_musicGetting_password
+
 
 
 # =============== Function that removes duplicates from a list ===============
@@ -99,7 +100,7 @@ def main():
     browser.set_window_position(0, 0)
 
     # Sign into Youtube Music
-    signIn(browser)
+    signIn(browser, youtube_musicGetting_email, youtube_musicGetting_password)
 
     # CollectMusic
     collectMusic(browser)
