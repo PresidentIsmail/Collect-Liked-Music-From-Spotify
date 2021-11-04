@@ -7,7 +7,7 @@ from GetMusicFromYoutube import main as GetFromYoutube
 def main():
 
     # get my music from spotify
-    # Spotify()
+    Spotify()
 
     # get my music from Youtube
     GetFromYoutube()
