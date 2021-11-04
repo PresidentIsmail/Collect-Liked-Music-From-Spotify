@@ -197,7 +197,7 @@ def main():
         executable_path='C:/Users/Ismail/Documents/Automated Bot/SeleniumAndDriver/chromedriver_win32/chromedriver')
     time.sleep(3)
 
-    browser.set_window_size(width=1400, height=1045)
+    browser.set_window_size(width=1300, height=1045)
     browser.set_window_position(0, 0)
     signIn(browser)
 
