@@ -174,11 +174,11 @@ def addMySongsToLikePlaylist(browser):
                         songsLiked += 1
                         print(f"\nSongs liked: {songsLiked}")
                         removeSongFromFile(song, songsRetrieved_FilePath)
+                        writeSongToFile(song, songsSent_FilePath)
                     else:
                         removeSongFromFile(song, songsRetrieved_FilePath)
                         pass
 
-                    writeSongToFile(song, songsSent_FilePath)
 
                 except Exception as e:
                     print(f"Like Error: {e}")
