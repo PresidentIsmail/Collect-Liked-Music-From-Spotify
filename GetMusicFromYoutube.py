@@ -1,5 +1,3 @@
-from os import error
-import random
 import time
 from selenium import webdriver
 
