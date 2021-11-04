@@ -5,4 +5,4 @@ youtube_musicGetting_email = "imnobystander@gmail.com"
 youtube_musicGetting_email_password = "9917$Bystander"
 
 youtube_musicSending_email = ""
-youtube_musicSending_email_password = ""
+youtube_musicGetting_password = ""
