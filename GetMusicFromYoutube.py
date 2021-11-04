@@ -73,7 +73,7 @@ def collectMusic(browser):
             scrollPlaylist(browser, lastSong)
 
             # if the last song is "hate u love u" than break
-            if lastSong.text == "hate u love u\nOlivia O'Brien":
+            if any("Empire State" in line.text for line in listOfSongs):
                 print("\nGot all Songs from Liked playlist!")
 
                 # remove any duplicate songs from the list
