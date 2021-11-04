@@ -1,4 +1,4 @@
-from SendMusicToYoutube import main as Youtube
+from SendMusicToYoutube import main as SendToYoutube
 from GetMusicFromSpotify import main as Spotify
 from GetMusicFromYoutube import main as GetFromYoutube
 
@@ -13,6 +13,6 @@ def main():
     GetFromYoutube()
 
     # send music to Youtube
-    Youtube()
+    SendToYoutube()
 
 main()
