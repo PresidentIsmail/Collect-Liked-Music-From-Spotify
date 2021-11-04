@@ -61,7 +61,7 @@ def collectMusic(browser):
                 #  add the text of the elements into another list
                 for song in listOfSongs:
                     textList = song.text.rsplit("\n", 1)
-                    text = textList[0].replace("\n", " ")
+                    text = textList[0].replace("\n", " ").replace("&", "and")
                     listOfSongNames.append(text)
                     print(text)
 
