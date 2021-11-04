@@ -3,7 +3,7 @@ import random
 import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import loginDetails
+from loginDetails import spotify_musicGetting_password, spotify_musicGetting_username
 # imports to wait for page to load
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -16,13 +16,13 @@ def enterUsername_Password(browser):
         EC.element_to_be_clickable((By.CSS_SELECTOR, "[name='username']"))
     )
     time.sleep(random.randint(1, 2))
-    username.send_keys(loginDetails.username)
+    username.send_keys(spotify_musicGetting_username)
 
     password = WebDriverWait(browser, 15).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "[name='password']"))
     )
     time.sleep(random.randint(1, 2))
-    password.send_keys(loginDetails.password)
+    password.send_keys(spotify_musicGetting_password)
 
 
 # =============== login function after logging in from spotify Hamburger menu ===============
