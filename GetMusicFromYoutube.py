@@ -29,15 +29,16 @@ def scrollPlaylist(browser, lastSong):
     try:
         browser.execute_script(
                     "arguments[0].scrollIntoView()", lastSong)
+        time.sleep(2)
     except Exception as e:
-        print("\nError: ", e)
+        print("\nScroll Error: ", e)
 
 
 # =============== function that gets the songs into a list ===============
 def putSongsIntoList(browser):
     listOfSongs = WebDriverWait(browser, 15).until(
                     EC.presence_of_all_elements_located(
-                        (By.CSS_SELECTOR, '[class="jqC4kulx5rkKJSJHwWC0"]'))
+                        (By.CSS_SELECTOR, '[class="flex-columns style-scope ytmusic-responsive-list-item-renderer"]'))
                 )
     
     return listOfSongs
@@ -59,8 +60,9 @@ def collectMusic(browser):
 
                 #  add the text of the elements into another list
                 for song in listOfSongs:
-                    text = song.text.replace('\nE\n', ' ')
-                    listOfSongNames.append(text.replace('\n', ' '))
+                    textList = song.text.rsplit("\n", 1)
+                    text = textList[0].replace("\n", " ")
+                    listOfSongNames.append(text)
                     print(text)
 
                 lastSong = listOfSongs[-1]
