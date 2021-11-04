@@ -2,8 +2,6 @@ from os import error
 import random
 import time
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
 
 # imports to wait for page to load
 from selenium.webdriver.support import expected_conditions as EC
