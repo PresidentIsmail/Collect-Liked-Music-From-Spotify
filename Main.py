@@ -7,12 +7,14 @@ from GetMusicFromYoutube import main as GetFromYoutube
 def main():
 
     # get my music from spotify
-    Spotify()
+    # Spotify()
 
     # get my music from Youtube
-    GetFromYoutube()
+    # GetFromYoutube()
 
     # send music to Youtube
     SendToYoutube()
 
 main()
+
+# env/Scripts/activate.bat
