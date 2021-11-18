@@ -110,6 +110,7 @@ def addMySongsToLikePlaylist(browser):
 
             if songExistsInFile:
                 print("\nsong exits in file")
+                songsLiked += 1
                 removeSongFromFile(song, songsRetrieved_FilePath)
 
             else:
