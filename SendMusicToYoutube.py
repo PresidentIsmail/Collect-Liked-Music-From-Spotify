@@ -105,15 +105,16 @@ def addMySongsToLikePlaylist(browser):
 
         for song in file:
             song = song.replace("\n", "")
-            browser.refresh()
 
             songExistsInFile = checkIfSongExistsInFile(song, songsSent_FilePath)
 
             if songExistsInFile:
-                print("\nsong exits in file\n")
+                print("\nsong exits in file")
                 removeSongFromFile(song, songsRetrieved_FilePath)
 
             else:
+                browser.refresh()
+                
                 # search for the song
                 searchforSongOnYoutube(browser, song)
                 time.sleep(2)
