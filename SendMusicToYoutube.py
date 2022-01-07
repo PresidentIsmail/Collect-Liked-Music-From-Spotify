@@ -99,7 +99,7 @@ def exitToHomePage(browser):
 
 # ============ Function searches for the each song in the text file and likes it on youtube Music
 def addMySongsToLikePlaylist(browser):
-    with open(songsRetrieved_FilePath, "r") as file:
+    with open(songsRetrieved_FilePath, "r", encoding='utf-8') as file:
 
         songsLiked = 0
 

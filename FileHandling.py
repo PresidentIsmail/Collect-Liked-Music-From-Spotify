@@ -3,7 +3,7 @@ from re import search
 
 # =============== function that writes an song to a file ===============
 def writeSongToFile(song, file_path):
-    with open(file_path, 'a+') as w_file:
+    with open(file_path, 'a+', encoding='utf-8') as w_file:
         w_file.seek(0)  # set pointer to beginning of file
         file = w_file.read().splitlines()  # remove newline
         if song in file:
@@ -16,7 +16,7 @@ def writeSongToFile(song, file_path):
 # =============== Function that writes a list of songs to a file ===============
 def writeListOfSongsToFile(listOfSongs, file_path):
     try:
-        with open(file_path, "w") as w_file:
+        with open(file_path, "w", encoding='utf-8') as w_file:
             for song in listOfSongs:
                 w_file.write(song + "\n")
         print("\nSongs written to text file.\n")
@@ -27,9 +27,9 @@ def writeListOfSongsToFile(listOfSongs, file_path):
 
 # =============== function that removes an song from a file ===============
 def removeSongFromFile(song, file_path):
-    with open(file_path, "r") as f:
+    with open(file_path, "r", encoding='utf-8') as f:
         lines = f.readlines()
-    with open(file_path, "w") as f:
+    with open(file_path, "w", encoding='utf-8') as f:
         for line in lines:
             if line.strip("\n") != song:
                 f.write(line)
@@ -39,7 +39,7 @@ def removeSongFromFile(song, file_path):
 
 # =============== function that checks if an song exists in a file ===============
 def checkIfSongExistsInFile(song, file_path):
-    with open(file_path, 'a+') as w_file:
+    with open(file_path, 'a+', encoding='utf-8') as w_file:
         w_file.seek(0)  # set pointer to beginning of file
         file = w_file.read().splitlines()  # remove newline
         if song in file:
@@ -50,9 +50,9 @@ def checkIfSongExistsInFile(song, file_path):
 
 # =============== function that finds subStrings in each line of a file ===============
 def removeIrrelevantSongs(subString, file_path):
-    with open(file_path, "r") as f:
+    with open(file_path, "r", encoding='utf-8') as f:
         lines = f.readlines()
-    with open(file_path, "w") as f:
+    with open(file_path, "w", encoding='utf-8') as f:
         for line in lines:
             if search(subString, line):
                 print("=====" , line.strip("\n"), " removed from file!")
