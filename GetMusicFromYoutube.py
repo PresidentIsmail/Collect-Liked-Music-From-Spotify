@@ -100,7 +100,7 @@ def main():
     browser.set_window_position(0, 0)
 
     # Sign into Youtube Music
-    signIn(browser, youtube_musicGetting_email, youtube_musicGetting_password)
+    # signIn(browser, youtube_musicGetting_email, youtube_musicGetting_password)
 
     # CollectMusic
     collectMusic(browser)
