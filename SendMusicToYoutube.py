@@ -111,7 +111,7 @@ def addMySongsToLikePlaylist(browser):
             if songExistsInFile:
                 print("\nsong exits in file")
                 songsLiked += 1
-                removeSongFromFile(song, songsRetrieved_FilePath)
+                removeSongFromFile(song, songsRetrieved_FilePath) 
 
             else:
                 browser.refresh()
@@ -150,8 +150,11 @@ def addMySongsToLikePlaylist(browser):
 
 # ============ Main Method
 def main():
+    option = webdriver.ChromeOptions()
+    option.add_experimental_option("debuggerAddress","localhost:9222")
+
     browser = webdriver.Chrome(
-        executable_path='C:/Users/Ismail/Documents/Automated Bot/SeleniumAndDriver/chromedriver_win32/chromedriver')
+        executable_path='C:/Users/Ismail/Documents/Automated Bot/SeleniumAndDriver/chromedriver_win32/chromedriver',options=option)
     time.sleep(3)
 
     browser.set_window_size(width=1300, height=1045)

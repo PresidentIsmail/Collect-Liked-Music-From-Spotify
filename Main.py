@@ -10,7 +10,7 @@ def main():
     # Spotify()
 
     # get my music from Youtube
-    # GetFromYoutube()
+    GetFromYoutube()
 
     # send music to Youtube
     SendToYoutube()
